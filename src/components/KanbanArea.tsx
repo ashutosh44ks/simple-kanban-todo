@@ -2,6 +2,7 @@ import { useDroppable } from "@dnd-kit/core";
 import { type Item } from "../utils/types";
 import KanbanItem from "./KanbanItem";
 
+// KanbanArea component to represent each area in the Kanban board
 interface KanbanAreaProps {
   title: string;
   items: Item[];

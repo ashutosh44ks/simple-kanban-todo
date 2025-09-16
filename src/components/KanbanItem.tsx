@@ -2,7 +2,11 @@ import { useDraggable } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
 import type { Item } from "../utils/types";
 
-const KanbanItem = ({ itemDetails }: { itemDetails: Item }) => {
+// KanbanItem component to represent a draggable item
+interface KanbanItemProps {
+  itemDetails: Item;
+}
+const KanbanItem = ({ itemDetails }: KanbanItemProps) => {
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
     id: itemDetails.id,
     data: itemDetails,

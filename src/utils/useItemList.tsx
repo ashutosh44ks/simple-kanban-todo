@@ -2,12 +2,15 @@ import { useState, useEffect } from "react";
 import type { Item } from "./types";
 import { STORAGE_KEY } from "./constants";
 
+// Custom hook to manage item list with local storage persistence
 const useItemList = () => {
+  // Initialize itemList from local storage or as an empty array
   const [itemList, setItemList] = useState<Item[]>(() => {
     const stored = localStorage.getItem(STORAGE_KEY);
     return stored ? JSON.parse(stored) : [];
   });
 
+  // Sync itemList to local storage whenever it changes
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(itemList));
   }, [itemList]);

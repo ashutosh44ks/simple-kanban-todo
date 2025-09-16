@@ -13,6 +13,8 @@ export default function AddItem({ handleAddNewItem }: AddItemProps) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (!title.trim()) return;
+    // Add new item with TODO as default parent
     handleAddNewItem({
       id: nextItemId++,
       title,
@@ -34,6 +36,7 @@ export default function AddItem({ handleAddNewItem }: AddItemProps) {
         placeholder="Enter card title"
         onChange={(e) => setTitle(e.target.value)}
         value={title}
+        required
       />
       <input
         type="text"

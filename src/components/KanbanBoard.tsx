@@ -1,15 +1,16 @@
+import { useMemo } from "react";
 import { DndContext, rectIntersection, type DragEndEvent } from "@dnd-kit/core";
 import KanbanArea from "./KanbanArea";
 import type { Item } from "../utils/types";
 import { ITEM_TYPES } from "../utils/constants";
 
+// KanbanBoard component to display items in their respective areas
 interface KanbanBoardProps {
   itemList: Item[];
   updateItemParent: (itemId: number, newParent: string) => void;
 }
-import { useMemo } from "react";
-
 const KanbanBoard = ({ itemList, updateItemParent }: KanbanBoardProps) => {
+  // Memoize filtered items for each area to optimize performance
   const todoItems = useMemo(
     () => itemList.filter((item) => item.parent === ITEM_TYPES.TODO),
     [itemList]
@@ -22,6 +23,7 @@ const KanbanBoard = ({ itemList, updateItemParent }: KanbanBoardProps) => {
     () => itemList.filter((item) => item.parent === ITEM_TYPES.DONE),
     [itemList]
   );
+  // Handle drag end event to update item's parent area
   const handleDragEnd = (e: DragEndEvent) => {
     const container = e.over?.id as string | undefined;
     const item = e.active.data.current as Item | undefined;
