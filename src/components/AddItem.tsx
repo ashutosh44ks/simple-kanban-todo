@@ -5,8 +5,6 @@ import { ITEM_TYPES } from "../utils/constants";
 interface AddItemProps {
   handleAddNewItem: (newItem: Item) => void;
 }
-let nextItemId = 1;
-
 export default function AddItem({ handleAddNewItem }: AddItemProps) {
   const [title, setTitle] = useState<string>("");
   const [description, setDescription] = useState<string>("");
@@ -16,7 +14,7 @@ export default function AddItem({ handleAddNewItem }: AddItemProps) {
     if (!title.trim()) return;
     // Add new item with TODO as default parent
     handleAddNewItem({
-      id: nextItemId++,
+      id: +new Date(),
       title,
       description,
       parent: ITEM_TYPES.TODO,
