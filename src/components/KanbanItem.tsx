@@ -2,22 +2,10 @@ import { useDraggable } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
 import type { Item } from "../utils/types";
 
-const KanbanItem = ({
-  itemDetails,
-  index,
-  parent,
-}: {
-  itemDetails: Item;
-  index: number;
-  parent: string;
-}) => {
+const KanbanItem = ({ itemDetails }: { itemDetails: Item }) => {
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
-    id: itemDetails.title,
-    data: {
-      ...itemDetails,
-      index,
-      parent,
-    },
+    id: itemDetails.id,
+    data: itemDetails,
   });
   const style = {
     transform: CSS.Translate.toString(transform),

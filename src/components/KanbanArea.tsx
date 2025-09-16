@@ -19,7 +19,7 @@ export default function KanbanArea({ title, items }: KanbanAreaProps) {
         className="bg-gray-200 rounded-lg flex-1 p-2 flex flex-col"
       >
         {items.map((itemDetails, key) => (
-          <KanbanItem itemDetails={itemDetails} key={key} index={key} parent={title} />
+          <KanbanItem itemDetails={itemDetails} key={key} />
         ))}
       </div>
     </div>

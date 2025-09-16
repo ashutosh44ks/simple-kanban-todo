@@ -5,11 +5,11 @@ import { ITEM_TYPES } from "../utils/constants";
 
 interface KanbanBoardProps {
   itemList: Item[];
-  setItemList: React.Dispatch<React.SetStateAction<Item[]>>;
+  updateItemParent: (itemId: number, newParent: string) => void;
 }
 import { useMemo } from "react";
 
-const KanbanBoard = ({ itemList, setItemList }: KanbanBoardProps) => {
+const KanbanBoard = ({ itemList, updateItemParent }: KanbanBoardProps) => {
   const todoItems = useMemo(
     () => itemList.filter((item) => item.parent === ITEM_TYPES.TODO),
     [itemList]
@@ -27,11 +27,9 @@ const KanbanBoard = ({ itemList, setItemList }: KanbanBoardProps) => {
     const item = e.active.data.current as Item | undefined;
     if (!container || !item) return;
     if (container === item.parent) return;
-    setItemList((prev) =>
-      prev.map((it) => (it.id === item.id ? { ...it, parent: container } : it))
-    );
+    updateItemParent(item.id, container);
   };
-  
+
   return (
     <DndContext collisionDetection={rectIntersection} onDragEnd={handleDragEnd}>
       <div className="flex gap-2 flex-1">
