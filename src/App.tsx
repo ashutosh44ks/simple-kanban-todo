@@ -1,20 +1,20 @@
 import { useState } from "react";
 import AddItem from "./components/AddItem";
 import KanbanBoard from "./components/KanbanBoard";
-import type { Card } from "./components/types";
+import type { Item } from "./utils/types";
 
 function App() {
-  const [todoItems, setTodoItems] = useState<Card[]>([]);
-  const [inProgressItems, setInProgressItems] = useState<Card[]>([]);
-  const [doneItems, setDoneItems] = useState<Card[]>([]);
-  const handleAddNewCard = (newCard: Card) => {
-    setTodoItems([...todoItems, newCard]);
+  const [todoItems, setTodoItems] = useState<Item[]>([]);
+  const [inProgressItems, setInProgressItems] = useState<Item[]>([]);
+  const [doneItems, setDoneItems] = useState<Item[]>([]);
+  const handleAddNewItem = (newItem: Item) => {
+    setTodoItems([...todoItems, newItem]);
   };
   return (
     <div className="h-screen p-4 flex flex-col">
-      <div className="flex justify-between items-center mb-4">
+      <div className="flex justify-between items-center mb-4 md:flex-row flex-col gap-2">
         <h1 className="text-2xl font-bold">Kanban Board</h1>
-        <AddItem handleAddNewCard={handleAddNewCard} />
+        <AddItem handleAddNewItem={handleAddNewItem} />
       </div>
       <KanbanBoard
         todoItems={todoItems}

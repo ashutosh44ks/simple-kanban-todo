@@ -1,10 +1,10 @@
-export interface Card {
+export interface Item {
   id: number;
   title: string;
   description?: string;
 }
 
-export interface CardPassedDrag extends Card {
+export interface ItemPassedDrag extends Item {
   index: number;
   parent: string;
 }
