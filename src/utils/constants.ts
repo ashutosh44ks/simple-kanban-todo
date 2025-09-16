@@ -4,3 +4,5 @@ export const ITEM_TYPES = {
   DONE: "Done",
 };
 
+export const STORAGE_KEY = "kanban_items";
+

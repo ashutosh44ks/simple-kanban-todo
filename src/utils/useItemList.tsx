@@ -1,11 +1,21 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import type { Item } from "./types";
+import { STORAGE_KEY } from "./constants";
 
 const useItemList = () => {
-  const [itemList, setItemList] = useState<Item[]>([]);
+  const [itemList, setItemList] = useState<Item[]>(() => {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    return stored ? JSON.parse(stored) : [];
+  });
+
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(itemList));
+  }, [itemList]);
+
   const handleAddNewItem = (newItem: Item) => {
-    setItemList([...itemList, newItem]);
+    setItemList((prev) => [...prev, newItem]);
   };
+
   const updateItemParent = (itemId: number, newParent: string) => {
     setItemList((prev) =>
       prev.map((item) =>
@@ -13,6 +23,7 @@ const useItemList = () => {
       )
     );
   };
+
   return { itemList, handleAddNewItem, updateItemParent };
 };
 
