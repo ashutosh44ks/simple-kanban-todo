@@ -4,11 +4,9 @@ import KanbanBoard from "./components/KanbanBoard";
 import type { Item } from "./utils/types";
 
 function App() {
-  const [todoItems, setTodoItems] = useState<Item[]>([]);
-  const [inProgressItems, setInProgressItems] = useState<Item[]>([]);
-  const [doneItems, setDoneItems] = useState<Item[]>([]);
+  const [itemList, setItemList] = useState<Item[]>([]);
   const handleAddNewItem = (newItem: Item) => {
-    setTodoItems([...todoItems, newItem]);
+    setItemList([...itemList, newItem]);
   };
   return (
     <div className="h-screen p-4 flex flex-col">
@@ -16,14 +14,7 @@ function App() {
         <h1 className="text-2xl font-bold">Kanban Board</h1>
         <AddItem handleAddNewItem={handleAddNewItem} />
       </div>
-      <KanbanBoard
-        todoItems={todoItems}
-        setTodoItems={setTodoItems}
-        doneItems={doneItems}
-        setDoneItems={setDoneItems}
-        inProgressItems={inProgressItems}
-        setInProgressItems={setInProgressItems}
-      />
+      <KanbanBoard itemList={itemList} setItemList={setItemList} />
     </div>
   );
 }

@@ -1,46 +1,37 @@
 import { DndContext, rectIntersection, type DragEndEvent } from "@dnd-kit/core";
 import KanbanArea from "./KanbanArea";
-import type { Item, ItemPassedDrag } from "../utils/types";
+import type { Item } from "../utils/types";
 import { ITEM_TYPES } from "../utils/constants";
 
 interface KanbanBoardProps {
-  todoItems: Item[];
-  setTodoItems: React.Dispatch<React.SetStateAction<Item[]>>;
-  doneItems: Item[];
-  setDoneItems: React.Dispatch<React.SetStateAction<Item[]>>;
-  inProgressItems: Item[];
-  setInProgressItems: React.Dispatch<React.SetStateAction<Item[]>>;
+  itemList: Item[];
+  setItemList: React.Dispatch<React.SetStateAction<Item[]>>;
 }
-const KanbanBoard = ({
-  todoItems,
-  setTodoItems,
-  doneItems,
-  setDoneItems,
-  inProgressItems,
-  setInProgressItems,
-}: KanbanBoardProps) => {
+import { useMemo } from "react";
+
+const KanbanBoard = ({ itemList, setItemList }: KanbanBoardProps) => {
+  const todoItems = useMemo(
+    () => itemList.filter((item) => item.parent === ITEM_TYPES.TODO),
+    [itemList]
+  );
+  const inProgressItems = useMemo(
+    () => itemList.filter((item) => item.parent === ITEM_TYPES.IN_PROGRESS),
+    [itemList]
+  );
+  const doneItems = useMemo(
+    () => itemList.filter((item) => item.parent === ITEM_TYPES.DONE),
+    [itemList]
+  );
   const handleDragEnd = (e: DragEndEvent) => {
-    const container = e.over?.id;
-    const item = e.active.data.current as ItemPassedDrag | undefined;
+    const container = e.over?.id as string | undefined;
+    const item = e.active.data.current as Item | undefined;
     if (!container || !item) return;
     if (container === item.parent) return;
-
-    if (item.parent === ITEM_TYPES.TODO) {
-      setTodoItems((items) => items.filter((i) => i.id !== item.id));
-    } else if (item.parent === ITEM_TYPES.IN_PROGRESS) {
-      setInProgressItems((items) => items.filter((i) => i.id !== item.id));
-    } else if (item.parent === ITEM_TYPES.DONE) {
-      setDoneItems((items) => items.filter((i) => i.id !== item.id));
-    }
-
-    if (container === ITEM_TYPES.TODO) {
-      setTodoItems((items) => [...items, item]);
-    } else if (container === ITEM_TYPES.IN_PROGRESS) {
-      setInProgressItems((items) => [...items, item]);
-    } else if (container === ITEM_TYPES.DONE) {
-      setDoneItems((items) => [...items, item]);
-    }
+    setItemList((prev) =>
+      prev.map((it) => (it.id === item.id ? { ...it, parent: container } : it))
+    );
   };
+  
   return (
     <DndContext collisionDetection={rectIntersection} onDragEnd={handleDragEnd}>
       <div className="flex gap-2 flex-1">

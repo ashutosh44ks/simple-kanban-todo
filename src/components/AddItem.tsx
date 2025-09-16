@@ -1,5 +1,6 @@
 import { useState } from "react";
 import type { Item } from "../utils/types";
+import { ITEM_TYPES } from "../utils/constants";
 
 interface AddItemProps {
   handleAddNewItem: (newItem: Item) => void;
@@ -12,13 +13,21 @@ export default function AddItem({ handleAddNewItem }: AddItemProps) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    handleAddNewItem({ id: nextItemId++, title, description });
+    handleAddNewItem({
+      id: nextItemId++,
+      title,
+      description,
+      parent: ITEM_TYPES.TODO,
+    });
     setTitle("");
     setDescription("");
   };
 
   return (
-    <form className="flex items-center md:flex-row flex-col gap-2" onSubmit={handleSubmit}>
+    <form
+      className="flex items-center md:flex-row flex-col gap-2"
+      onSubmit={handleSubmit}
+    >
       <input
         type="text"
         className="border-2 border-gray-300 rounded-lg p-2 hover:border-gray-400 focus:outline-none focus:border-blue-500"
